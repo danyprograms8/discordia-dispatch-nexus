@@ -24,22 +24,12 @@ type AuthContextType = {
 // Create context
 const AuthContext = createContext<AuthContextType | undefined>(undefined);
 
-// Get Supabase URL and anon key from environment variables
-const supabaseUrl = import.meta.env.VITE_SUPABASE_URL || '';
-const supabaseKey = import.meta.env.VITE_SUPABASE_ANON_KEY || '';
+// Define Supabase credentials directly
+const supabaseUrl = "https://cfzlbsnnrveqbyyupupi.supabase.co";
+const supabaseKey = "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6ImNmemxic25ucnZlcWJ5eXVwdXBpIiwicm9sZSI6InNlcnZpY2Vfcm9sZSIsImlhdCI6MTc0NzE1MzU2MiwiZXhwIjoyMDYyNzI5NTYyfQ.41kCJhWCCnmREmlqxcmRmL-u0oULessR_20XBpO7B-4";
 
-// Create Supabase client or use a mock client if credentials are missing
-const supabase = (supabaseUrl && supabaseKey) 
-  ? createClient(supabaseUrl, supabaseKey)
-  : {
-      auth: {
-        getSession: () => Promise.resolve({ data: { session: null } }),
-        onAuthStateChange: () => ({ data: { subscription: { unsubscribe: () => {} } } }),
-        signInWithPassword: () => Promise.reject(new Error("Supabase not configured")),
-        signOut: () => Promise.reject(new Error("Supabase not configured")),
-        resetPasswordForEmail: () => Promise.reject(new Error("Supabase not configured")),
-      }
-    };
+// Create Supabase client
+const supabase = createClient(supabaseUrl, supabaseKey);
 
 export const AuthProvider = ({ children }: { children: ReactNode }) => {
   const [user, setUser] = useState<User | null>(null);
@@ -48,18 +38,6 @@ export const AuthProvider = ({ children }: { children: ReactNode }) => {
   const { toast } = useToast();
 
   useEffect(() => {
-    // Show warning if Supabase is not configured
-    if (!supabaseUrl || !supabaseKey) {
-      console.warn("Supabase credentials are missing. Authentication features will not work.");
-      toast({
-        title: "Configuration Error",
-        description: "Supabase credentials are missing. Please check your environment variables.",
-        variant: "destructive",
-      });
-      setLoading(false);
-      return;
-    }
-
     // Check for active session
     const checkUser = async () => {
       try {
@@ -104,15 +82,6 @@ export const AuthProvider = ({ children }: { children: ReactNode }) => {
 
   // Sign in function
   const signIn = async (email: string, password: string, rememberMe: boolean) => {
-    if (!supabaseUrl || !supabaseKey) {
-      toast({
-        title: "Authentication Error",
-        description: "Supabase is not properly configured. Please contact an administrator.",
-        variant: "destructive",
-      });
-      throw new Error("Supabase not configured");
-    }
-    
     try {
       setLoading(true);
       const { data, error } = await supabase.auth.signInWithPassword({
@@ -152,15 +121,6 @@ export const AuthProvider = ({ children }: { children: ReactNode }) => {
 
   // Sign out function
   const signOut = async () => {
-    if (!supabaseUrl || !supabaseKey) {
-      toast({
-        title: "Authentication Error",
-        description: "Supabase is not properly configured. Please contact an administrator.",
-        variant: "destructive",
-      });
-      throw new Error("Supabase not configured");
-    }
-    
     try {
       setLoading(true);
       const { error } = await supabase.auth.signOut();
@@ -184,15 +144,6 @@ export const AuthProvider = ({ children }: { children: ReactNode }) => {
 
   // Forgot password function
   const forgotPassword = async (email: string) => {
-    if (!supabaseUrl || !supabaseKey) {
-      toast({
-        title: "Authentication Error",
-        description: "Supabase is not properly configured. Please contact an administrator.",
-        variant: "destructive",
-      });
-      throw new Error("Supabase not configured");
-    }
-    
     try {
       setLoading(true);
       const { error } = await supabase.auth.resetPasswordForEmail(email, {

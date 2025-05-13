@@ -14,7 +14,7 @@ export function Toaster() {
 
   return (
     <ToastProvider>
-      {toasts.map(function ({ id, title, description, action, type, ...props }) {
+      {toasts.map(function ({ id, title, description, action, ...props }) {
         // Map our variant to either "foreground" or "background" for shadcn/ui Toast
         const toastType = props.variant === "destructive" ? "foreground" : "background";
         

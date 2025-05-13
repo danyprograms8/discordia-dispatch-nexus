@@ -29,19 +29,12 @@ import {
 import { createClient } from '@supabase/supabase-js';
 import { useToast } from "@/components/ui/use-toast";
 
-// Initialize Supabase client safely
-const supabaseUrl = import.meta.env.VITE_SUPABASE_URL || '';
-const supabaseKey = import.meta.env.VITE_SUPABASE_ANON_KEY || '';
+// Define Supabase credentials directly
+const supabaseUrl = "https://cfzlbsnnrveqbyyupupi.supabase.co";
+const supabaseKey = "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6ImNmemxic25ucnZlcWJ5eXVwdXBpIiwicm9sZSI6InNlcnZpY2Vfcm9sZSIsImlhdCI6MTc0NzE1MzU2MiwiZXhwIjoyMDYyNzI5NTYyfQ.41kCJhWCCnmREmlqxcmRmL-u0oULessR_20XBpO7B-4";
 
-// Create Supabase client or use a mock client if credentials are missing
-const supabase = (supabaseUrl && supabaseKey) 
-  ? createClient(supabaseUrl, supabaseKey)
-  : {
-      // Mock client with dummy methods as needed for this component
-      from: () => ({
-        select: () => ({ data: null, error: new Error("Supabase not configured") })
-      })
-    };
+// Create Supabase client
+const supabase = createClient(supabaseUrl, supabaseKey);
 
 // Types
 type MetricData = {

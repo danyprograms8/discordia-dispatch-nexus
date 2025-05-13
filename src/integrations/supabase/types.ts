@@ -9,10 +9,385 @@ export type Json =
 export type Database = {
   public: {
     Tables: {
-      [_ in never]: never
+      delivery_locations: {
+        Row: {
+          city: string | null
+          created_at: string | null
+          delivery_date: string | null
+          delivery_time: string | null
+          id: number
+          load_id: string
+          sequence: number
+          state: string | null
+          updated_at: string | null
+          zipcode: string | null
+        }
+        Insert: {
+          city?: string | null
+          created_at?: string | null
+          delivery_date?: string | null
+          delivery_time?: string | null
+          id?: number
+          load_id: string
+          sequence: number
+          state?: string | null
+          updated_at?: string | null
+          zipcode?: string | null
+        }
+        Update: {
+          city?: string | null
+          created_at?: string | null
+          delivery_date?: string | null
+          delivery_time?: string | null
+          id?: number
+          load_id?: string
+          sequence?: number
+          state?: string | null
+          updated_at?: string | null
+          zipcode?: string | null
+        }
+        Relationships: [
+          {
+            foreignKeyName: "delivery_locations_load_id_fkey"
+            columns: ["load_id"]
+            isOneToOne: false
+            referencedRelation: "load_summary"
+            referencedColumns: ["load_id"]
+          },
+          {
+            foreignKeyName: "delivery_locations_load_id_fkey"
+            columns: ["load_id"]
+            isOneToOne: false
+            referencedRelation: "loads"
+            referencedColumns: ["load_id"]
+          },
+          {
+            foreignKeyName: "delivery_locations_load_id_fkey"
+            columns: ["load_id"]
+            isOneToOne: false
+            referencedRelation: "truck_availability"
+            referencedColumns: ["current_load_id"]
+          },
+        ]
+      }
+      drivers: {
+        Row: {
+          available_date: string | null
+          available_time: string | null
+          created_at: string | null
+          current_location_city: string | null
+          current_location_state: string | null
+          email: string | null
+          id: number
+          license_number: string | null
+          license_state: string | null
+          name: string
+          phone: string | null
+          status: string | null
+          truck_number: string | null
+          updated_at: string | null
+        }
+        Insert: {
+          available_date?: string | null
+          available_time?: string | null
+          created_at?: string | null
+          current_location_city?: string | null
+          current_location_state?: string | null
+          email?: string | null
+          id?: number
+          license_number?: string | null
+          license_state?: string | null
+          name: string
+          phone?: string | null
+          status?: string | null
+          truck_number?: string | null
+          updated_at?: string | null
+        }
+        Update: {
+          available_date?: string | null
+          available_time?: string | null
+          created_at?: string | null
+          current_location_city?: string | null
+          current_location_state?: string | null
+          email?: string | null
+          id?: number
+          license_number?: string | null
+          license_state?: string | null
+          name?: string
+          phone?: string | null
+          status?: string | null
+          truck_number?: string | null
+          updated_at?: string | null
+        }
+        Relationships: []
+      }
+      load_notes: {
+        Row: {
+          created_at: string | null
+          id: number
+          load_id: string
+          note_text: string
+          note_type: string | null
+          user_id: string | null
+        }
+        Insert: {
+          created_at?: string | null
+          id?: number
+          load_id: string
+          note_text: string
+          note_type?: string | null
+          user_id?: string | null
+        }
+        Update: {
+          created_at?: string | null
+          id?: number
+          load_id?: string
+          note_text?: string
+          note_type?: string | null
+          user_id?: string | null
+        }
+        Relationships: [
+          {
+            foreignKeyName: "load_notes_load_id_fkey"
+            columns: ["load_id"]
+            isOneToOne: false
+            referencedRelation: "load_summary"
+            referencedColumns: ["load_id"]
+          },
+          {
+            foreignKeyName: "load_notes_load_id_fkey"
+            columns: ["load_id"]
+            isOneToOne: false
+            referencedRelation: "loads"
+            referencedColumns: ["load_id"]
+          },
+          {
+            foreignKeyName: "load_notes_load_id_fkey"
+            columns: ["load_id"]
+            isOneToOne: false
+            referencedRelation: "truck_availability"
+            referencedColumns: ["current_load_id"]
+          },
+        ]
+      }
+      loads: {
+        Row: {
+          broker_load_number: string | null
+          broker_name: string | null
+          created_at: string | null
+          driver_id: number | null
+          id: number
+          load_id: string
+          load_type: string | null
+          rate: number | null
+          status: string
+          temperature: string | null
+          updated_at: string | null
+        }
+        Insert: {
+          broker_load_number?: string | null
+          broker_name?: string | null
+          created_at?: string | null
+          driver_id?: number | null
+          id?: number
+          load_id: string
+          load_type?: string | null
+          rate?: number | null
+          status?: string
+          temperature?: string | null
+          updated_at?: string | null
+        }
+        Update: {
+          broker_load_number?: string | null
+          broker_name?: string | null
+          created_at?: string | null
+          driver_id?: number | null
+          id?: number
+          load_id?: string
+          load_type?: string | null
+          rate?: number | null
+          status?: string
+          temperature?: string | null
+          updated_at?: string | null
+        }
+        Relationships: [
+          {
+            foreignKeyName: "fk_driver"
+            columns: ["driver_id"]
+            isOneToOne: false
+            referencedRelation: "drivers"
+            referencedColumns: ["id"]
+          },
+          {
+            foreignKeyName: "fk_driver"
+            columns: ["driver_id"]
+            isOneToOne: false
+            referencedRelation: "truck_availability"
+            referencedColumns: ["driver_id"]
+          },
+        ]
+      }
+      pickup_locations: {
+        Row: {
+          city: string | null
+          created_at: string | null
+          id: number
+          load_id: string
+          pickup_date: string | null
+          pickup_time: string | null
+          sequence: number
+          state: string | null
+          updated_at: string | null
+          zipcode: string | null
+        }
+        Insert: {
+          city?: string | null
+          created_at?: string | null
+          id?: number
+          load_id: string
+          pickup_date?: string | null
+          pickup_time?: string | null
+          sequence: number
+          state?: string | null
+          updated_at?: string | null
+          zipcode?: string | null
+        }
+        Update: {
+          city?: string | null
+          created_at?: string | null
+          id?: number
+          load_id?: string
+          pickup_date?: string | null
+          pickup_time?: string | null
+          sequence?: number
+          state?: string | null
+          updated_at?: string | null
+          zipcode?: string | null
+        }
+        Relationships: [
+          {
+            foreignKeyName: "pickup_locations_load_id_fkey"
+            columns: ["load_id"]
+            isOneToOne: false
+            referencedRelation: "load_summary"
+            referencedColumns: ["load_id"]
+          },
+          {
+            foreignKeyName: "pickup_locations_load_id_fkey"
+            columns: ["load_id"]
+            isOneToOne: false
+            referencedRelation: "loads"
+            referencedColumns: ["load_id"]
+          },
+          {
+            foreignKeyName: "pickup_locations_load_id_fkey"
+            columns: ["load_id"]
+            isOneToOne: false
+            referencedRelation: "truck_availability"
+            referencedColumns: ["current_load_id"]
+          },
+        ]
+      }
     }
     Views: {
-      [_ in never]: never
+      load_notes_view: {
+        Row: {
+          broker_load_number: string | null
+          created_at: string | null
+          load_id: string | null
+          load_type: string | null
+          note_id: number | null
+          note_text: string | null
+          note_type: string | null
+          user_id: string | null
+        }
+        Relationships: [
+          {
+            foreignKeyName: "load_notes_load_id_fkey"
+            columns: ["load_id"]
+            isOneToOne: false
+            referencedRelation: "load_summary"
+            referencedColumns: ["load_id"]
+          },
+          {
+            foreignKeyName: "load_notes_load_id_fkey"
+            columns: ["load_id"]
+            isOneToOne: false
+            referencedRelation: "loads"
+            referencedColumns: ["load_id"]
+          },
+          {
+            foreignKeyName: "load_notes_load_id_fkey"
+            columns: ["load_id"]
+            isOneToOne: false
+            referencedRelation: "truck_availability"
+            referencedColumns: ["current_load_id"]
+          },
+        ]
+      }
+      load_summary: {
+        Row: {
+          broker_load_number: string | null
+          broker_name: string | null
+          created_at: string | null
+          driver_id: number | null
+          driver_name: string | null
+          first_delivery_city: string | null
+          first_delivery_date: string | null
+          first_delivery_state: string | null
+          first_delivery_time: string | null
+          first_delivery_zipcode: string | null
+          first_pickup_city: string | null
+          first_pickup_date: string | null
+          first_pickup_state: string | null
+          first_pickup_time: string | null
+          first_pickup_zipcode: string | null
+          id: number | null
+          load_id: string | null
+          load_type: string | null
+          rate: number | null
+          status: string | null
+          temperature: string | null
+        }
+        Relationships: [
+          {
+            foreignKeyName: "fk_driver"
+            columns: ["driver_id"]
+            isOneToOne: false
+            referencedRelation: "drivers"
+            referencedColumns: ["id"]
+          },
+          {
+            foreignKeyName: "fk_driver"
+            columns: ["driver_id"]
+            isOneToOne: false
+            referencedRelation: "truck_availability"
+            referencedColumns: ["driver_id"]
+          },
+        ]
+      }
+      truck_availability: {
+        Row: {
+          available_date: string | null
+          available_time: string | null
+          current_broker_load: string | null
+          current_load_id: string | null
+          current_load_type: string | null
+          current_location_city: string | null
+          current_location_state: string | null
+          driver_id: number | null
+          driver_name: string | null
+          last_delivery_city: string | null
+          last_delivery_date: string | null
+          last_delivery_state: string | null
+          last_delivery_time: string | null
+          last_delivery_zipcode: string | null
+          load_status: string | null
+          status: string | null
+          truck_number: string | null
+        }
+        Relationships: []
+      }
     }
     Functions: {
       [_ in never]: never

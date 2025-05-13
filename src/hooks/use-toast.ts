@@ -11,8 +11,15 @@ interface ToastProps {
   type?: "success" | "error" | "info" | "warning";
 }
 
+interface ExtendedToastT extends ToastT {
+  title?: string;
+  description?: string;
+  action?: React.ReactNode;
+  variant?: "default" | "destructive";
+}
+
 export const useToast = () => {
-  const [toasts, setToasts] = useState<ToastT[]>([]);
+  const [toasts, setToasts] = useState<ExtendedToastT[]>([]);
 
   const toast = ({ title, description, action, variant = "default", type, duration = 5000 }: ToastProps) => {
     // Map our variant to sonner toast type if type is not provided
@@ -32,7 +39,7 @@ export const useToast = () => {
       description,
       action,
       variant // Include variant for shadcn/ui Toast mapping
-    } as unknown as ToastT;
+    } as ExtendedToastT;
     
     setToasts((prev) => [...prev, newToast]);
     

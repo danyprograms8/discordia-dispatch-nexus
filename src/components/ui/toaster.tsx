@@ -15,8 +15,12 @@ export function Toaster() {
   return (
     <ToastProvider>
       {toasts.map(function ({ id, title, description, action, ...props }) {
+        // Since the sonner toast doesn't have a variant property directly,
+        // we use the props from our useToast hook which adds this
+        const toastVariant = (props as any).variant || "default";
+        
         // Map our variant to either "foreground" or "background" for shadcn/ui Toast
-        const toastType = props.variant === "destructive" ? "foreground" : "background";
+        const toastType = toastVariant === "destructive" ? "foreground" : "background";
         
         return (
           <Toast key={id} type={toastType} {...props}>

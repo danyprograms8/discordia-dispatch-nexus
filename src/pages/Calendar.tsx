@@ -1,4 +1,3 @@
-
 import { useState } from "react";
 import { format } from "date-fns";
 import {
@@ -261,15 +260,14 @@ const CalendarPage = () => {
               day_hidden: "invisible",
             }}
             components={{
-              Day: ({ displayValue, ...props }) => {
-                const dateValue = new Date(displayValue);
-                const events = getEventsForDate(dateValue);
+              Day: ({ date: dayDate, ...props }) => {
+                const events = getEventsForDate(dayDate);
                 const hasEvents = events.length > 0;
                 
                 return (
                   <div className="relative p-0 w-full h-full" {...props}>
                     <div className="absolute top-0 left-0 w-9 h-9 flex items-center justify-center">
-                      {format(dateValue, "d")}
+                      {format(dayDate, "d")}
                     </div>
                     {hasEvents && (
                       <Popover>
@@ -298,7 +296,7 @@ const CalendarPage = () => {
                         >
                           <div className="p-2 border-b border-discord-secondary">
                             <h3 className="font-medium text-discord-text">
-                              {format(dateValue, "EEEE, MMMM d, yyyy")}
+                              {format(dayDate, "EEEE, MMMM d, yyyy")}
                             </h3>
                             <p className="text-xs text-discord-muted">
                               {events.length} {events.length === 1 ? "event" : "events"}

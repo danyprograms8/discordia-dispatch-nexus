@@ -20,12 +20,11 @@ export function Toaster() {
         const toastVariant = (props as any).variant || "default";
         
         // Map our variant to either "foreground" or "background" for shadcn/ui Toast
-        // Explicitly constrain the type to be only "foreground" or "background"
-        const toastType: "foreground" | "background" = 
+        const mappedType: "foreground" | "background" = 
           toastVariant === "destructive" ? "foreground" : "background";
         
         return (
-          <Toast key={id} type={toastType} {...props}>
+          <Toast key={id} type={mappedType} {...props}>
             <div className="grid gap-1">
               {title && <ToastTitle>{title}</ToastTitle>}
               {description && (

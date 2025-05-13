@@ -717,142 +717,143 @@ const DriverDetail = () => {
                       Documents
                     </TabsTrigger>
                   </TabsList>
-                </CardHeader>
-                <CardContent className="pt-6">
-                  <TabsContent value="loads" className="mt-0">
-                    <div className="space-y-4">
-                      {loadHistory.length === 0 ? (
-                        <div className="text-discord-muted py-10 text-center">No load history available</div>
-                      ) : (
-                        loadHistory.map((load) => (
-                          <Link to={`/loads/${load.id}`} key={load.id}>
-                            <div className="border border-discord-background rounded-md p-4 hover:bg-discord-background/50 transition-colors">
-                              <div className="flex items-center justify-between mb-2">
-                                <div className="font-semibold text-discord-text">
-                                  {load.broker_name} - #{load.broker_load_number}
-                                </div>
-                                <Badge variant="outline" className={`${getStatusColor(load.status)}`}>
-                                  {load.status.charAt(0).toUpperCase() + load.status.slice(1).replace("-", " ")}
-                                </Badge>
+                </Tabs>
+              </CardHeader>
+              <CardContent className="pt-6">
+                <TabsContent value="loads" className="mt-0">
+                  <div className="space-y-4">
+                    {loadHistory.length === 0 ? (
+                      <div className="text-discord-muted py-10 text-center">No load history available</div>
+                    ) : (
+                      loadHistory.map((load) => (
+                        <Link to={`/loads/${load.id}`} key={load.id}>
+                          <div className="border border-discord-background rounded-md p-4 hover:bg-discord-background/50 transition-colors">
+                            <div className="flex items-center justify-between mb-2">
+                              <div className="font-semibold text-discord-text">
+                                {load.broker_name} - #{load.broker_load_number}
                               </div>
-                              <div className="space-y-2">
+                              <Badge variant="outline" className={`${getStatusColor(load.status)}`}>
+                                {load.status.charAt(0).toUpperCase() + load.status.slice(1).replace("-", " ")}
+                              </Badge>
+                            </div>
+                            <div className="space-y-2">
+                              <div className="flex items-center text-discord-muted">
+                                <MapPin className="mr-2 h-4 w-4" />
+                                <span>
+                                  {load.pickup_city}, {load.pickup_state} → {load.delivery_city}, {load.delivery_state}
+                                </span>
+                              </div>
+                              <div className="flex justify-between">
                                 <div className="flex items-center text-discord-muted">
-                                  <MapPin className="mr-2 h-4 w-4" />
-                                  <span>
-                                    {load.pickup_city}, {load.pickup_state} → {load.delivery_city}, {load.delivery_state}
-                                  </span>
+                                  <CalendarIcon className="mr-2 h-4 w-4" />
+                                  <span>{formatDate(load.pickup_date)}</span>
                                 </div>
-                                <div className="flex justify-between">
-                                  <div className="flex items-center text-discord-muted">
-                                    <CalendarIcon className="mr-2 h-4 w-4" />
-                                    <span>{formatDate(load.pickup_date)}</span>
-                                  </div>
-                                  <div className="text-discord-text">${load.rate.toLocaleString()}</div>
-                                </div>
+                                <div className="text-discord-text">${load.rate.toLocaleString()}</div>
                               </div>
                             </div>
-                          </Link>
-                        ))
-                      )}
-                    </div>
-                  </TabsContent>
-                  
-                  <TabsContent value="performance" className="mt-0">
-                    <div className="space-y-6">
-                      <div className="grid grid-cols-1 sm:grid-cols-3 gap-4">
-                        <div className="bg-discord-background p-4 rounded-md">
-                          <div className="text-discord-muted text-sm">Loads Completed (30d)</div>
-                          <div className="text-discord-text text-2xl font-bold">22</div>
-                        </div>
-                        <div className="bg-discord-background p-4 rounded-md">
-                          <div className="text-discord-muted text-sm">On-Time Delivery</div>
-                          <div className="text-discord-text text-2xl font-bold">96%</div>
-                        </div>
-                        <div className="bg-discord-background p-4 rounded-md">
-                          <div className="text-discord-muted text-sm">Avg. Miles/Day</div>
-                          <div className="text-discord-text text-2xl font-bold">330</div>
-                        </div>
-                      </div>
-                      
-                      <div className="space-y-2">
-                        <h3 className="text-discord-text font-medium">Monthly Performance</h3>
-                        <div className="overflow-x-auto">
-                          <table className="w-full">
-                            <thead className="border-b border-discord-background">
-                              <tr>
-                                <th className="text-left py-2 text-discord-muted">Month</th>
-                                <th className="text-left py-2 text-discord-muted">Loads</th>
-                                <th className="text-left py-2 text-discord-muted">On-Time %</th>
-                                <th className="text-left py-2 text-discord-muted">Avg Miles/Day</th>
-                              </tr>
-                            </thead>
-                            <tbody>
-                              {performanceMetrics.map((metric, index) => (
-                                <tr key={index} className="border-b border-discord-background">
-                                  <td className="py-2 text-discord-text">{metric.month}</td>
-                                  <td className="py-2 text-discord-text">{metric.loads_completed}</td>
-                                  <td className="py-2 text-discord-text">{metric.on_time_delivery_rate}%</td>
-                                  <td className="py-2 text-discord-text">{metric.average_miles_per_day}</td>
-                                </tr>
-                              ))}
-                            </tbody>
-                          </table>
-                        </div>
-                      </div>
-                    </div>
-                  </TabsContent>
-                  
-                  <TabsContent value="documents" className="mt-0">
-                    <div className="space-y-4">
-                      {documents.length === 0 ? (
-                        <div className="text-discord-muted py-10 text-center">No documents available</div>
-                      ) : (
-                        <div>
-                          <div className="flex justify-end mb-4">
-                            <Button 
-                              variant="outline"
-                              size="sm"
-                              className="border-discord-accent text-discord-accent hover:bg-discord-accent/10"
-                            >
-                              <PlusCircle className="mr-2 h-4 w-4" /> Upload Document
-                            </Button>
                           </div>
-                          {documents.map((doc) => (
-                            <div 
-                              key={doc.id}
-                              className="border border-discord-background rounded-md p-4 mb-3 hover:bg-discord-background/50 transition-colors"
-                            >
-                              <div className="flex items-center justify-between">
-                                <div className="flex items-center">
-                                  {getDocumentTypeIcon(doc.type)}
-                                  <span className="ml-2 text-discord-text">{doc.name}</span>
-                                </div>
-                                {doc.expiry_date && (
-                                  <Badge variant={
-                                    new Date(doc.expiry_date) < new Date() ? 
-                                      "destructive" : 
-                                      new Date(doc.expiry_date).getTime() - new Date().getTime() < 30 * 24 * 60 * 60 * 1000 ? 
-                                        "outline" : "default"
-                                  }>
-                                    {new Date(doc.expiry_date) < new Date() ? 
-                                      "Expired" : 
-                                      `Expires: ${formatDate(doc.expiry_date)}`
-                                    }
-                                  </Badge>
-                                )}
-                              </div>
-                              <div className="text-xs text-discord-muted mt-1">
-                                Uploaded: {formatDate(doc.upload_date)}
-                              </div>
-                            </div>
-                          ))}
-                        </div>
-                      )}
+                        </Link>
+                      ))
+                    )}
+                  </div>
+                </TabsContent>
+                
+                <TabsContent value="performance" className="mt-0">
+                  <div className="space-y-6">
+                    <div className="grid grid-cols-1 sm:grid-cols-3 gap-4">
+                      <div className="bg-discord-background p-4 rounded-md">
+                        <div className="text-discord-muted text-sm">Loads Completed (30d)</div>
+                        <div className="text-discord-text text-2xl font-bold">22</div>
+                      </div>
+                      <div className="bg-discord-background p-4 rounded-md">
+                        <div className="text-discord-muted text-sm">On-Time Delivery</div>
+                        <div className="text-discord-text text-2xl font-bold">96%</div>
+                      </div>
+                      <div className="bg-discord-background p-4 rounded-md">
+                        <div className="text-discord-muted text-sm">Avg. Miles/Day</div>
+                        <div className="text-discord-text text-2xl font-bold">330</div>
+                      </div>
                     </div>
-                  </TabsContent>
-                </CardContent>
-              </Card>
-            )}
+                    
+                    <div className="space-y-2">
+                      <h3 className="text-discord-text font-medium">Monthly Performance</h3>
+                      <div className="overflow-x-auto">
+                        <table className="w-full">
+                          <thead className="border-b border-discord-background">
+                            <tr>
+                              <th className="text-left py-2 text-discord-muted">Month</th>
+                              <th className="text-left py-2 text-discord-muted">Loads</th>
+                              <th className="text-left py-2 text-discord-muted">On-Time %</th>
+                              <th className="text-left py-2 text-discord-muted">Avg Miles/Day</th>
+                            </tr>
+                          </thead>
+                          <tbody>
+                            {performanceMetrics.map((metric, index) => (
+                              <tr key={index} className="border-b border-discord-background">
+                                <td className="py-2 text-discord-text">{metric.month}</td>
+                                <td className="py-2 text-discord-text">{metric.loads_completed}</td>
+                                <td className="py-2 text-discord-text">{metric.on_time_delivery_rate}%</td>
+                                <td className="py-2 text-discord-text">{metric.average_miles_per_day}</td>
+                              </tr>
+                            ))}
+                          </tbody>
+                        </table>
+                      </div>
+                    </div>
+                  </div>
+                </TabsContent>
+                
+                <TabsContent value="documents" className="mt-0">
+                  <div className="space-y-4">
+                    {documents.length === 0 ? (
+                      <div className="text-discord-muted py-10 text-center">No documents available</div>
+                    ) : (
+                      <div>
+                        <div className="flex justify-end mb-4">
+                          <Button 
+                            variant="outline"
+                            size="sm"
+                            className="border-discord-accent text-discord-accent hover:bg-discord-accent/10"
+                          >
+                            <PlusCircle className="mr-2 h-4 w-4" /> Upload Document
+                          </Button>
+                        </div>
+                        {documents.map((doc) => (
+                          <div 
+                            key={doc.id}
+                            className="border border-discord-background rounded-md p-4 mb-3 hover:bg-discord-background/50 transition-colors"
+                          >
+                            <div className="flex items-center justify-between">
+                              <div className="flex items-center">
+                                {getDocumentTypeIcon(doc.type)}
+                                <span className="ml-2 text-discord-text">{doc.name}</span>
+                              </div>
+                              {doc.expiry_date && (
+                                <Badge variant={
+                                  new Date(doc.expiry_date) < new Date() ? 
+                                    "destructive" : 
+                                    new Date(doc.expiry_date).getTime() - new Date().getTime() < 30 * 24 * 60 * 60 * 1000 ? 
+                                      "outline" : "default"
+                                }>
+                                  {new Date(doc.expiry_date) < new Date() ? 
+                                    "Expired" : 
+                                    `Expires: ${formatDate(doc.expiry_date)}`
+                                  }
+                                </Badge>
+                              )}
+                            </div>
+                            <div className="text-xs text-discord-muted mt-1">
+                              Uploaded: {formatDate(doc.upload_date)}
+                            </div>
+                          </div>
+                        ))}
+                      </div>
+                    )}
+                  </div>
+                </TabsContent>
+              </CardContent>
+            </Card>
+          )}
         </div>
 
         {/* Right column - Sidebar */}

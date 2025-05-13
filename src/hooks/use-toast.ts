@@ -8,20 +8,32 @@ interface ToastProps {
   action?: React.ReactNode;
   variant?: "default" | "destructive";
   duration?: number;
+  type?: "success" | "error" | "info" | "warning" | "destructive";
 }
 
 export const useToast = () => {
   const [toasts, setToasts] = useState<ToastT[]>([]);
 
-  const toast = ({ title, description, action, variant = "default", duration = 5000 }: ToastProps) => {
+  const toast = ({ title, description, action, variant = "default", type, duration = 5000 }: ToastProps) => {
+    // Map our variant to sonner toast type if type is not provided
+    const toastType = type || (variant === "destructive" ? "error" : "default");
+    
     const id = sonnerToast(title, {
       description,
       action,
       duration,
-      className: variant === "destructive" ? "destructive-toast" : ""
+      className: variant === "destructive" ? "destructive-toast" : "",
+      type: toastType,
     });
     
-    setToasts((prev) => [...prev, { id, title, description }]);
+    setToasts((prev) => [...prev, { 
+      id, 
+      title, 
+      description,
+      action,
+      type: toastType
+    }]);
+    
     return id;
   };
 

@@ -1,7 +1,6 @@
 
 import { createContext, useContext, useState, useEffect, ReactNode } from "react";
 import { createClient } from "@supabase/supabase-js";
-import { useNavigate } from "react-router-dom";
 import { useToast } from "@/components/ui/use-toast";
 
 // Define types
@@ -32,81 +31,29 @@ const supabaseKey = "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZS
 const supabase = createClient(supabaseUrl, supabaseKey);
 
 export const AuthProvider = ({ children }: { children: ReactNode }) => {
-  const [user, setUser] = useState<User | null>(null);
-  const [loading, setLoading] = useState(true);
-  const navigate = useNavigate();
+  // Create a mock user for testing purposes
+  const mockUser: User = {
+    id: "test-user-id",
+    email: "test@example.com",
+    user_metadata: {
+      full_name: "Test User"
+    }
+  };
+  
+  // Set the user to the mock user and loading to false
+  const [user, setUser] = useState<User | null>(mockUser);
+  const [loading, setLoading] = useState(false);
   const { toast } = useToast();
 
-  useEffect(() => {
-    // Check for active session
-    const checkUser = async () => {
-      try {
-        const { data: { session } } = await supabase.auth.getSession();
-        
-        if (session?.user) {
-          setUser({
-            id: session.user.id,
-            email: session.user.email || "",
-            user_metadata: session.user.user_metadata
-          });
-        }
-      } catch (error) {
-        console.error("Error checking auth status:", error);
-      } finally {
-        setLoading(false);
-      }
-    };
-
-    checkUser();
-
-    // Subscribe to auth changes
-    const { data: { subscription } } = supabase.auth.onAuthStateChange(
-      (event, session) => {
-        if (event === 'SIGNED_IN' && session) {
-          setUser({
-            id: session.user.id,
-            email: session.user.email || "",
-            user_metadata: session.user.user_metadata
-          });
-        } else if (event === 'SIGNED_OUT') {
-          setUser(null);
-          navigate('/login');
-        }
-      }
-    );
-
-    return () => {
-      subscription.unsubscribe();
-    };
-  }, [navigate, toast]);
-
-  // Sign in function
+  // Mock sign in function
   const signIn = async (email: string, password: string, rememberMe: boolean) => {
     try {
       setLoading(true);
-      const { data, error } = await supabase.auth.signInWithPassword({
-        email,
-        password
+      // Mock successful login
+      toast({
+        title: "Sign in successful",
+        description: `Welcome back, ${mockUser.user_metadata?.full_name || email}!`,
       });
-
-      if (error) {
-        throw error;
-      }
-
-      if (data.user) {
-        setUser({
-          id: data.user.id,
-          email: data.user.email || "",
-          user_metadata: data.user.user_metadata
-        });
-        
-        toast({
-          title: "Sign in successful",
-          description: `Welcome back, ${data.user.user_metadata?.full_name || data.user.email}!`,
-        });
-        
-        navigate('/dashboard');
-      }
     } catch (error: any) {
       toast({
         title: "Sign in failed",
@@ -119,18 +66,13 @@ export const AuthProvider = ({ children }: { children: ReactNode }) => {
     }
   };
 
-  // Sign out function
+  // Mock sign out function
   const signOut = async () => {
     try {
       setLoading(true);
-      const { error } = await supabase.auth.signOut();
-      
-      if (error) {
-        throw error;
-      }
-      
-      setUser(null);
-      navigate('/login');
+      toast({
+        title: "Signed out successfully",
+      });
     } catch (error: any) {
       toast({
         title: "Sign out failed",
@@ -142,18 +84,10 @@ export const AuthProvider = ({ children }: { children: ReactNode }) => {
     }
   };
 
-  // Forgot password function
+  // Mock forgot password function
   const forgotPassword = async (email: string) => {
     try {
       setLoading(true);
-      const { error } = await supabase.auth.resetPasswordForEmail(email, {
-        redirectTo: `${window.location.origin}/reset-password`,
-      });
-      
-      if (error) {
-        throw error;
-      }
-      
       toast({
         title: "Password reset email sent",
         description: "Check your email for a password reset link.",

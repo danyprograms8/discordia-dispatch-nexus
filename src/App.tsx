@@ -34,7 +34,8 @@ const App = () => (
       <BrowserRouter>
         <AuthProvider>
           <Routes>
-            <Route path="/login" element={<Login />} />
+            {/* Redirect login page to dashboard */}
+            <Route path="/login" element={<Navigate to="/dashboard" replace />} />
             <Route
               path="/"
               element={

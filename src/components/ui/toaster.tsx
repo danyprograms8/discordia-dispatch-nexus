@@ -14,9 +14,12 @@ export function Toaster() {
 
   return (
     <ToastProvider>
-      {toasts.map(function ({ id, title, description, action, ...props }) {
+      {toasts.map(function ({ id, title, description, action, type, ...props }) {
+        // Map our variant to either "foreground" or "background" for shadcn/ui Toast
+        const toastType = props.variant === "destructive" ? "foreground" : "background";
+        
         return (
-          <Toast key={id} {...props}>
+          <Toast key={id} type={toastType} {...props}>
             <div className="grid gap-1">
               {title && <ToastTitle>{title}</ToastTitle>}
               {description && (
@@ -26,9 +29,9 @@ export function Toaster() {
             {action && <div className="action">{action as React.ReactNode}</div>}
             <ToastClose />
           </Toast>
-        )
+        );
       })}
       <ToastViewport />
     </ToastProvider>
-  )
+  );
 }

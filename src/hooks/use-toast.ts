@@ -25,12 +25,16 @@ export const useToast = () => {
       className: variant === "destructive" ? "destructive-toast" : "",
     });
     
-    // Only store what's compatible with ToastT
-    setToasts((prev) => [...prev, { 
+    // Store additional props we need for our custom Toast component
+    const newToast = { 
       id, 
       title, 
-      description 
-    } as ToastT]);
+      description,
+      action,
+      variant // Include variant for shadcn/ui Toast mapping
+    } as unknown as ToastT;
+    
+    setToasts((prev) => [...prev, newToast]);
     
     return id;
   };

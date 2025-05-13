@@ -1,4 +1,3 @@
-
 import { useState, useEffect } from "react";
 import { Link } from "react-router-dom";
 import { 
@@ -28,11 +27,21 @@ import {
   ResponsiveContainer,
 } from "recharts";
 import { createClient } from '@supabase/supabase-js';
+import { useToast } from "@/components/ui/use-toast";
 
-// Initialize Supabase client
-const supabaseUrl = import.meta.env.VITE_SUPABASE_URL;
-const supabaseKey = import.meta.env.VITE_SUPABASE_ANON_KEY;
-const supabase = createClient(supabaseUrl, supabaseKey);
+// Initialize Supabase client safely
+const supabaseUrl = import.meta.env.VITE_SUPABASE_URL || '';
+const supabaseKey = import.meta.env.VITE_SUPABASE_ANON_KEY || '';
+
+// Create Supabase client or use a mock client if credentials are missing
+const supabase = (supabaseUrl && supabaseKey) 
+  ? createClient(supabaseUrl, supabaseKey)
+  : {
+      // Mock client with dummy methods as needed for this component
+      from: () => ({
+        select: () => ({ data: null, error: new Error("Supabase not configured") })
+      })
+    };
 
 // Types
 type MetricData = {
@@ -65,12 +74,23 @@ const Dashboard = () => {
   const [activity, setActivity] = useState<ActivityItem[]>([]);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState<string | null>(null);
+  const { toast } = useToast();
 
   // Fetch dashboard data
   useEffect(() => {
     const fetchDashboardData = async () => {
       try {
         setLoading(true);
+
+        // Check if Supabase credentials are configured
+        if (!supabaseUrl || !supabaseKey) {
+          console.warn("Supabase credentials are missing. Using mock data.");
+          toast({
+            title: "Configuration Notice",
+            description: "Supabase credentials are missing. Using sample data instead.",
+            type: "info",
+          });
+        }
 
         // In a real app, we would fetch this data from Supabase
         // For now, we'll use mock data
@@ -141,7 +161,7 @@ const Dashboard = () => {
     };
 
     fetchDashboardData();
-  }, []);
+  }, [toast]);
 
   const getStatusClass = (status: string) => {
     switch (status) {

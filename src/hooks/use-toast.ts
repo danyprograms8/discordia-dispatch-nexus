@@ -8,7 +8,7 @@ interface ToastProps {
   action?: React.ReactNode;
   variant?: "default" | "destructive";
   duration?: number;
-  type?: "success" | "error" | "info" | "warning" | "destructive";
+  type?: "success" | "error" | "info" | "warning";
 }
 
 export const useToast = () => {
@@ -16,23 +16,21 @@ export const useToast = () => {
 
   const toast = ({ title, description, action, variant = "default", type, duration = 5000 }: ToastProps) => {
     // Map our variant to sonner toast type if type is not provided
-    const toastType = type || (variant === "destructive" ? "error" : "default");
+    const mappedType = type || (variant === "destructive" ? "error" : "default");
     
     const id = sonnerToast(title, {
       description,
       action,
       duration,
       className: variant === "destructive" ? "destructive-toast" : "",
-      type: toastType,
     });
     
+    // Only store what's compatible with ToastT
     setToasts((prev) => [...prev, { 
       id, 
       title, 
-      description,
-      action,
-      type: toastType
-    }]);
+      description 
+    } as ToastT]);
     
     return id;
   };

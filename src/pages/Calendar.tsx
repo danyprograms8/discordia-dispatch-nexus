@@ -3,7 +3,7 @@ import { useState } from "react";
 import { format } from "date-fns";
 import {
   Calendar as CalendarComponent,
-  ScheduleIcon,
+  CalendarClock,
   Truck,
   ChevronLeft,
   ChevronRight,
@@ -91,8 +91,8 @@ const CalendarPage = () => {
   const [selectedEvent, setSelectedEvent] = useState<any | null>(null);
 
   // Filter events based on the selected date and filters
-  const getEventsForDate = (day: Date) => {
-    const dateString = format(day, "yyyy-MM-dd");
+  const getEventsForDate = (dateValue: Date) => {
+    const dateString = format(dateValue, "yyyy-MM-dd");
     
     return mockEvents.filter((event) => {
       const matchesDate = event.date === dateString;
@@ -237,7 +237,7 @@ const CalendarPage = () => {
             mode="single"
             selected={date}
             onSelect={(day) => day && setDate(day)}
-            className="rounded-md"
+            className="rounded-md pointer-events-auto"
             classNames={{
               months: "space-y-4 sm:space-x-4 sm:space-y-0",
               month: "space-y-4",
@@ -261,14 +261,15 @@ const CalendarPage = () => {
               day_hidden: "invisible",
             }}
             components={{
-              Day: ({ day, ...props }) => {
-                const events = getEventsForDate(day);
+              Day: ({ displayValue, ...props }) => {
+                const dateValue = new Date(displayValue);
+                const events = getEventsForDate(dateValue);
                 const hasEvents = events.length > 0;
                 
                 return (
                   <div className="relative p-0 w-full h-full" {...props}>
                     <div className="absolute top-0 left-0 w-9 h-9 flex items-center justify-center">
-                      {format(day, "d")}
+                      {format(dateValue, "d")}
                     </div>
                     {hasEvents && (
                       <Popover>
@@ -297,7 +298,7 @@ const CalendarPage = () => {
                         >
                           <div className="p-2 border-b border-discord-secondary">
                             <h3 className="font-medium text-discord-text">
-                              {format(day, "EEEE, MMMM d, yyyy")}
+                              {format(dateValue, "EEEE, MMMM d, yyyy")}
                             </h3>
                             <p className="text-xs text-discord-muted">
                               {events.length} {events.length === 1 ? "event" : "events"}
@@ -326,7 +327,7 @@ const CalendarPage = () => {
                                     </span>
                                   </div>
                                   <div className="flex items-center space-x-1">
-                                    <ScheduleIcon className="h-3 w-3" />
+                                    <CalendarClock className="h-3 w-3" />
                                     <span>Driver: {event.driver}</span>
                                   </div>
                                 </div>
@@ -374,7 +375,7 @@ const CalendarPage = () => {
                   {selectedEvent.location}
                 </div>
                 <div className="flex items-center text-discord-text">
-                  <ScheduleIcon className="h-4 w-4 mr-2 text-discord-muted" />
+                  <CalendarClock className="h-4 w-4 mr-2 text-discord-muted" />
                   {selectedEvent.driver}
                 </div>
               </div>

@@ -1,6 +1,6 @@
 
 import { useState } from 'react';
-import { toast as sonnerToast, type Toast } from 'sonner';
+import { toast as sonnerToast, type ToastT } from 'sonner';
 
 interface ToastProps {
   title?: string;
@@ -11,7 +11,7 @@ interface ToastProps {
 }
 
 export const useToast = () => {
-  const [toasts, setToasts] = useState<Toast[]>([]);
+  const [toasts, setToasts] = useState<ToastT[]>([]);
 
   const toast = ({ title, description, action, variant = "default", duration = 5000 }: ToastProps) => {
     const id = sonnerToast(title, {

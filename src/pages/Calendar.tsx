@@ -271,9 +271,10 @@ const CalendarPage = () => {
     setDateRangeStart("");
     setDateRangeEnd("");
     setIsFilterOpen(false);
-    toast({
-      title: "Filters reset",
-      description: "All filters have been cleared",
+    
+    // Fix toast call to use the correct format
+    toast("Filters reset", {
+      description: "All filters have been cleared"
     });
   };
 
@@ -284,19 +285,20 @@ const CalendarPage = () => {
       const endDate = new Date(dateRangeEnd);
       
       if (startDate > endDate) {
-        toast({
-          title: "Invalid date range",
+        // Fix toast call to use the correct format
+        toast("Invalid date range", {
           description: "Start date must be before end date",
-          variant: "destructive",
+          variant: "destructive"
         });
         return;
       }
     }
     
     setIsFilterOpen(false);
-    toast({
-      title: "Filters applied",
-      description: "Calendar view has been updated",
+    
+    // Fix toast call to use the correct format
+    toast("Filters applied", {
+      description: "Calendar view has been updated"
     });
   };
 
@@ -607,7 +609,7 @@ const CalendarPage = () => {
                             <span className="text-discord-text">{event.loadNumber}</span>
                           </div>
                           <div className="text-discord-text">
-                            {format(parseISO(event.date), "EEE, MMM d")}
+                            {format(parseISO(event.date), "EEE, MMMM d")}
                             <div className="text-xs text-discord-muted">
                               {event.type === "pickup" ? "Pickup" : "Delivery"}
                             </div>

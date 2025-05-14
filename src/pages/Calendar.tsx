@@ -1,3 +1,4 @@
+
 import { useState } from "react";
 import { format } from "date-fns";
 import {
@@ -25,6 +26,7 @@ import {
   PopoverTrigger,
 } from "@/components/ui/popover";
 import { Input } from "@/components/ui/input";
+import { toast } from "@/components/ui/use-toast";
 
 // Mock data for calendar events
 const mockEvents = [
@@ -197,10 +199,18 @@ const CalendarPage = () => {
     setDriverFilter("all");
     setDateRangeStart("");
     setDateRangeEnd("");
+    toast({
+      title: "Filters reset",
+      description: "All filters have been cleared",
+    });
   };
 
   const handleApplyFilters = () => {
     setIsFilterOpen(false);
+    toast({
+      title: "Filters applied",
+      description: "Calendar view has been updated",
+    });
   };
 
   return (
@@ -417,24 +427,23 @@ const CalendarPage = () => {
                                   className="p-2 border-b border-discord-secondary hover:bg-discord-secondary cursor-pointer"
                                   onClick={() => setSelectedEvent(event)}
                                 >
-                                  <div className="flex items-center space-x-2">
-                                    {event.type === "pickup" ? (
-                                      <div className="w-2 h-2 rounded-full bg-blue-400" />
-                                    ) : (
-                                      <div className="w-2 h-2 rounded-full bg-green-400" />
-                                    )}
-                                    <span className="text-discord-text font-medium">Load #{event.loadNumber}</span>
+                                  <div className="flex items-center justify-between">
+                                    <div className="flex items-center space-x-2">
+                                      {event.type === "pickup" ? (
+                                        <div className="w-2 h-2 rounded-full bg-blue-400" />
+                                      ) : (
+                                        <div className="w-2 h-2 rounded-full bg-green-400" />
+                                      )}
+                                      <span className="text-discord-text font-medium">Load #{event.loadNumber}</span>
+                                    </div>
+                                    <span className="text-discord-text font-medium">{event.rate}</span>
                                   </div>
-                                  <div className="ml-4 text-xs text-discord-muted">
+                                  <div className="ml-4 text-xs text-discord-muted mt-1">
                                     <div className="flex items-center space-x-1">
                                       <Truck className="h-3 w-3" />
                                       <span>
                                         {event.type === "pickup" ? "Pickup" : "Delivery"}: {event.location}
                                       </span>
-                                    </div>
-                                    <div className="flex items-center space-x-1">
-                                      <CalendarClock className="h-3 w-3" />
-                                      <span>Rate: {event.rate}</span>
                                     </div>
                                   </div>
                                 </div>

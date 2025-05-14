@@ -1,4 +1,3 @@
-
 import { useState } from "react";
 import { format } from "date-fns";
 import {
@@ -199,16 +198,14 @@ const CalendarPage = () => {
     setDriverFilter("all");
     setDateRangeStart("");
     setDateRangeEnd("");
-    toast({
-      title: "Filters reset",
+    toast("Filters reset", {
       description: "All filters have been cleared",
     });
   };
 
   const handleApplyFilters = () => {
     setIsFilterOpen(false);
-    toast({
-      title: "Filters applied",
+    toast("Filters applied", {
       description: "Calendar view has been updated",
     });
   };

@@ -8,6 +8,7 @@ interface ToastProps {
   action?: React.ReactNode;
   variant?: "default" | "destructive";
   duration?: number;
+  className?: string;
 }
 
 interface ExtendedToastT extends ToastT {
@@ -20,12 +21,12 @@ interface ExtendedToastT extends ToastT {
 export const useToast = () => {
   const [toasts, setToasts] = useState<ExtendedToastT[]>([]);
 
-  const toast = ({ title, description, action, variant = "default", duration = 5000 }: ToastProps) => {
+  const toast = ({ title, description, action, variant = "default", duration = 5000, className }: ToastProps) => {
     const id = sonnerToast(title, {
       description,
       action,
       duration,
-      className: variant === "destructive" ? "destructive-toast" : "",
+      className: className || (variant === "destructive" ? "destructive-toast" : ""),
     });
     
     // Store additional props we need for our custom Toast component

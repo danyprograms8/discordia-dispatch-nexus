@@ -1,3 +1,4 @@
+
 import { useState, useEffect } from "react";
 import { Link } from "react-router-dom";
 import { 
@@ -81,7 +82,7 @@ const Dashboard = () => {
           toast({
             title: "Configuration Notice",
             description: "Supabase credentials are missing. Using sample data instead.",
-            type: "info",
+            className: "bg-blue-100" // Changed from type: "info" to className
           });
         }
 

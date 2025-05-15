@@ -8,7 +8,6 @@ interface ToastProps {
   action?: React.ReactNode;
   variant?: "default" | "destructive";
   duration?: number;
-  type?: "success" | "error" | "info" | "warning";
 }
 
 interface ExtendedToastT extends ToastT {
@@ -21,10 +20,7 @@ interface ExtendedToastT extends ToastT {
 export const useToast = () => {
   const [toasts, setToasts] = useState<ExtendedToastT[]>([]);
 
-  const toast = ({ title, description, action, variant = "default", type, duration = 5000 }: ToastProps) => {
-    // Map our variant to sonner toast type if type is not provided
-    const mappedType = type || (variant === "destructive" ? "error" : "default");
-    
+  const toast = ({ title, description, action, variant = "default", duration = 5000 }: ToastProps) => {
     const id = sonnerToast(title, {
       description,
       action,

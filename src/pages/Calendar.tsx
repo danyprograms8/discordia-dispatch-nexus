@@ -286,7 +286,7 @@ const CalendarPage = () => {
       if (startDate > endDate) {
         toast("Invalid date range", {
           description: "Start date must be before end date",
-          type: "error"
+          className: "destructive-toast"
         });
         return;
       }

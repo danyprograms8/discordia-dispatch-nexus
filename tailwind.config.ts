@@ -57,12 +57,24 @@ export default {
         discord: {
           background: "#36393F",
           secondary: "#2F3136",
-          accent: "#7289DA",
+          accent: "#9b87f5", // Changed from blue to purple
           text: "#FFFFFF",
           muted: "#DCDDDE",
           success: "#43B581",
           warning: "#FAA61A",
           error: "#F04747",
+        },
+        // New purple theme colors
+        purple: {
+          100: "#f3effc",
+          200: "#e7dff9",
+          300: "#d6c6f5",
+          400: "#c4acf1",
+          500: "#9b87f5",
+          600: "#7e69ab",
+          700: "#6e59a5",
+          800: "#342e48",
+          900: "#1A1F2C",
         },
       },
       borderRadius: {

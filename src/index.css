@@ -16,7 +16,7 @@
     --popover: 223 6% 13%; /* #36393F */
     --popover-foreground: 0 0% 100%; /* #FFFFFF */
 
-    --primary: 227 58% 65%; /* #7289DA */
+    --primary: 270 58% 65%; /* #9b87f5 - Purple instead of Discord blue */
     --primary-foreground: 0 0% 100%; /* #FFFFFF */
 
     --secondary: 223 4% 20%; /* #2F3136 */
@@ -25,7 +25,7 @@
     --muted: 223 4% 20%; /* #2F3136 */
     --muted-foreground: 220 13% 91%; /* #DCDDDE */
 
-    --accent: 227 58% 65%; /* #7289DA */
+    --accent: 270 58% 65%; /* #9b87f5 - Purple instead of Discord blue */
     --accent-foreground: 0 0% 100%; /* #FFFFFF */
 
     --destructive: 0 79% 63%; /* #F04747 */
@@ -36,7 +36,7 @@
 
     --border: 223 4% 20%; /* #2F3136 */
     --input: 223 4% 20%; /* #2F3136 */
-    --ring: 227 58% 65%; /* #7289DA */
+    --ring: 270 58% 65%; /* #9b87f5 - Purple instead of Discord blue */
 
     --radius: 0.5rem;
   }
@@ -89,5 +89,5 @@
 }
 
 ::-webkit-scrollbar-thumb:hover {
-  background: #7289DA;
+  background: #9b87f5;
 }

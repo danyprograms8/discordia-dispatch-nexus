@@ -355,14 +355,16 @@ const LogisticsDashboard = () => {
     setIsFilterOpen(false);
     setSearchQuery("");
     
-    toast("Filters reset", {
+    toast({
+      title: "Filters reset",
       description: "All filters have been cleared"
     });
   };
 
   // Handle generate report
   const handleGenerateReport = () => {
-    toast("Generating report", {
+    toast({
+      title: "Generating report",
       description: `Report generated with ${filteredData.length} entries`
     });
     
@@ -380,7 +382,8 @@ const LogisticsDashboard = () => {
   const handleDispatcherClick = (dispatcher: string) => {
     setDispatcherFilter(dispatcher);
     
-    toast(`Dispatcher selected`, {
+    toast({
+      title: "Dispatcher selected",
       description: `Filtered to show ${dispatcher}'s entries`
     });
   };
@@ -390,7 +393,8 @@ const LogisticsDashboard = () => {
     // Validate date range
     if (fromDate && toDate) {
       if (fromDate > toDate) {
-        toast("Invalid date range", {
+        toast({
+          title: "Invalid date range",
           description: "Start date must be before end date"
         });
         return;
@@ -399,7 +403,8 @@ const LogisticsDashboard = () => {
     
     setIsFilterOpen(false);
     
-    toast("Filters applied", {
+    toast({
+      title: "Filters applied",
       description: "Dashboard view has been updated"
     });
   };

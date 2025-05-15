@@ -272,8 +272,7 @@ const CalendarPage = () => {
     setDateRangeEnd("");
     setIsFilterOpen(false);
     
-    toast({
-      title: "Filters reset",
+    toast("Filters reset", {
       description: "All filters have been cleared"
     });
   };
@@ -285,10 +284,9 @@ const CalendarPage = () => {
       const endDate = new Date(dateRangeEnd);
       
       if (startDate > endDate) {
-        toast({
-          title: "Invalid date range",
+        toast("Invalid date range", {
           description: "Start date must be before end date",
-          variant: "destructive"
+          type: "error"
         });
         return;
       }
@@ -296,8 +294,7 @@ const CalendarPage = () => {
     
     setIsFilterOpen(false);
     
-    toast({
-      title: "Filters applied",
+    toast("Filters applied", {
       description: "Calendar view has been updated"
     });
   };
